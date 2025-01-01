@@ -3,17 +3,17 @@ library(ggplot2)
 library(dplyr)
 
 # Reads data
-df <- read.csv("65_plus_excess_mortality.csv")
+df <- read.csv("65_plus_excess_mortality_by_buckets.csv")
 
 # Computes min and max values
-min_rate <- min(df$rate, na.rm = TRUE)
-max_rate <- max(df$rate, na.rm = TRUE)
+min_rate_avg <- min(df$rate_avg, na.rm = TRUE)
+max_rate_avg <- max(df$rate_avg, na.rm = TRUE)
 min_excess_pct <- min(df$excess_pct, na.rm = TRUE)
 max_excess_pct <- max(df$excess_pct, na.rm = TRUE)
 
 # Prints the values
-cat("Min Vaccination Rate:", min_rate, "\n")
-cat("Max Vaccination Rate:", max_rate, "\n")
+cat("Min Vaccination Rate:", min_rate_avg, "\n")
+cat("Max Vaccination Rate:", max_rate_avg, "\n")
 cat("Min Excess Mortality:", min_excess_pct, "\n")
 cat("Max Excess Mortality:", max_excess_pct, "\n")
 
@@ -23,7 +23,7 @@ df$excess_pct <- ifelse(df$excess_pct < -50, -50, df$excess_pct)
 
 # Function to fit a linear model and return a summary for each year
 fit_model_by_year <- function(data) {
-  lm_model <- lm(excess_pct ~ rate, data = data)
+  lm_model <- lm(excess_pct ~ rate_avg, data = data)
   summary(lm_model)
 }
 
@@ -40,7 +40,7 @@ for (i in seq_along(models_by_year)) {
 }
 
 # Creates the plot with regression line
-ggplot(data = df, aes(x = rate, y = excess_pct)) +
+ggplot(data = df, aes(x = rate_avg, y = excess_pct)) +
   geom_point(size = 3, color = "blue") +
   geom_smooth(method = "lm", color = "red", se = TRUE, linewidth = 1) + # Use linewidth for line size
   facet_wrap(~ year) +
