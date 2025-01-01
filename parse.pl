@@ -104,7 +104,7 @@ for my $county_code (sort keys %data) {
 	my %rates = ();
 	my ($rate_2020, $rate_2021, $rate_2022, $rate_2023) = (0, 0, 0, 0);
 	for my $compdate (sort{$a <=> $b} keys %{$covid_dose_1{$county_code}}) {
-		if ($compdate =~ /^202012*/ || $compdate =~ /^202101*/) {
+		if ($compdate =~ /^202012*/ || $compdate =~ /^202101*/ || $compdate =~ /^202102*/) {
 			$has_2020 = 1;
 			$rates{2020} = $covid_dose_1{$county_code}->{$compdate}->{'dose_1_percent'} // die;
 		}

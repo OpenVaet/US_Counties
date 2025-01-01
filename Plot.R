@@ -42,14 +42,23 @@ for (i in seq_along(models_by_year)) {
 # Creates the plot with regression line
 ggplot(data = df, aes(x = rate, y = excess_pct)) +
   geom_point(size = 3, color = "blue") +
-  geom_smooth(method = "lm", color = "red", se = TRUE) + # Add regression line
+  geom_smooth(method = "lm", color = "red", se = TRUE, linewidth = 1) + # Use linewidth for line size
   facet_wrap(~ year) +
   labs(
-    title = "Excess Mortality vs. Vaccination Rate by Year",
+    title = "US Counties - Excess Mortality vs. Vaccination Rate by Year",
     x = "Vaccination Rate (%)",
     y = "Excess Mortality (%)"
   ) +
   scale_y_continuous(limits = c(-50, 100)) + # Set Y-axis limits
   scale_x_continuous(limits = c(0, 100)) +  # Set X-axis limits
-  geom_vline(xintercept = 50, linetype = "dashed", color = "red", size = 1) + # Add vertical line at x = 50
-  theme_minimal()
+  geom_vline(xintercept = 50, linetype = "dashed", color = "red", linewidth = 1) + # Use linewidth for dashed line
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16, face = "bold"), # Increase title size
+    axis.title = element_text(size = 14),               # Increase axis title size
+    axis.text = element_text(size = 12),                # Increase axis text size
+    legend.title = element_text(size = 14),             # Increase legend title size
+    legend.text = element_text(size = 12),              # Increase legend text size
+    strip.text = element_text(size = 14)                # Increase facet text size
+  )
+
